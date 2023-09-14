@@ -42,7 +42,7 @@
                 android:id="@+id/textView_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
+                android:text="2023-09-14 18:15"
                 android:textSize="19sp"
                 android:layout_marginTop="8dp"
                 android:textAlignment="center"

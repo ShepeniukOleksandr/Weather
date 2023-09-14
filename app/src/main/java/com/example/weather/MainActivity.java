@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView wind;
     private TextView humidity;
 
+    private TextView date;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         rain = findViewById(R.id.textView_Rain);
         wind = findViewById(R.id.textView_wind);
         humidity = findViewById(R.id.textView9);
+        date = findViewById(R.id.textView_date);
 
         HealperApi healperApi = new HealperApi();
 
@@ -36,10 +39,11 @@ public class MainActivity extends AppCompatActivity {
                     Day firstDay = days.get(0);
                     mainTemp.setText(String.valueOf(firstDay.getAvgTemp()));
                     condition.setText(firstDay.getCondition());
-                    rain.setText(String.valueOf(firstDay.getRain()));
+                    rain.setText(String.valueOf(firstDay.getRainChance()));
                     wind.setText(String.valueOf(firstDay.getMaxWind()) + " km/h");
                     humidity.setText(String.valueOf(firstDay.getHumidity()) + " %");
                     updateImage(firstDay.getCondition());
+                    date.setText(firstDay.getDate());
                 }
             }
 

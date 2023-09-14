@@ -42,33 +42,75 @@ public class HealperApi extends Day {
 
     private static ArrayList<Day> parseWeatherData(String jsonData) {
         ArrayList<Day> days = new ArrayList<>();
-        CurrentDay currentDay = new CurrentDay();
         try{
+//            JSONObject jsonObject = new JSONObject(jsonData);
+//            JSONObject forecast = jsonObject.getJSONObject("forecast");
+//            JSONArray forecastDays = forecast.getJSONArray("forecastday");
+//            for (int i = 0; i < forecastDays.length(); i++) {
+//                JSONObject dayData = forecastDays.getJSONObject(i);
+//                String date = dayData.getString("date");
+//                JSONObject day = dayData.getJSONObject("day");
+//                double avgTempC = day.getDouble("avgtemp_c");
+//                double maxWind = day.getDouble("maxwind_kph");
+//                double chance_of_rain = day.getDouble("daily_chance_of_rain");
+//                double humidity = day.getDouble("avghumidity");
+//
+//                JSONObject condition = day.getJSONObject("condition");
+//                String conditionText = condition.getString("text");
+//
+//                Day dayW = new Day();
+//                dayW.setDate(date);
+//                dayW.setAvgTemp(avgTempC);
+//                dayW.setCondition(conditionText);
+//                dayW.setRain(chance_of_rain);
+//                dayW.setMaxWind(maxWind);
+//                dayW.setHumidity(humidity);
+//                days.add(dayW);
+//            }
             JSONObject jsonObject = new JSONObject(jsonData);
+            JSONObject location = jsonObject.getJSONObject("location");
+            JSONObject current = jsonObject.getJSONObject("current");
+            JSONObject condition = current.getJSONObject("condition");
             JSONObject forecast = jsonObject.getJSONObject("forecast");
             JSONArray forecastDays = forecast.getJSONArray("forecastday");
+            String city = location.getString("name");
             for (int i = 0; i < forecastDays.length(); i++) {
                 JSONObject dayData = forecastDays.getJSONObject(i);
-                String date = dayData.getString("date");
                 JSONObject day = dayData.getJSONObject("day");
-                double avgTempC = day.getDouble("avgtemp_c");
-                double maxWind = day.getDouble("maxwind_kph");
-                double chance_of_rain = day.getDouble("daily_chance_of_rain");
-                double humidity = day.getDouble("avghumidity");
+                JSONObject dayCondition = day.getJSONObject("condition");
+                String date;
+                String text;
+                double temp;
+                double rain;
+                double windSpeed;
+                double humidity;
 
-                JSONObject condition = day.getJSONObject("condition");
-                String conditionText = condition.getString("text");
-
+                if(i == 0){
+                    date = location.getString("localtime");
+                    text = condition.getString("text");
+                    temp = current.getDouble("temp_c");
+                    rain = current.getDouble("precip_mm");
+                    windSpeed = current.getDouble("wind_kph");
+                    humidity = current.getDouble("humidity");
+                }else{
+                    date = dayData.getString("date");
+                    text = dayCondition.getString("text");
+                    temp = day.getDouble("avgtemp_c");
+                    rain = day.getDouble("daily_chance_of_rain");
+                    windSpeed = day.getDouble("maxwind_kph");
+                    humidity = day.getDouble("avghumidity");
+                }
                 Day dayW = new Day();
+                dayW.setCity(city);
                 dayW.setDate(date);
-                dayW.setAvgTemp(avgTempC);
-                dayW.setCondition(conditionText);
-                dayW.setRain(chance_of_rain);
-                dayW.setMaxWind(maxWind);
+                dayW.setCondition(text);
+                dayW.setAvgTemp(temp);
+                dayW.setRainChance(rain);
+                dayW.setMaxWind(windSpeed);
                 dayW.setHumidity(humidity);
                 days.add(dayW);
-
             }
+
         }
         catch(JSONException e){
             e.printStackTrace();

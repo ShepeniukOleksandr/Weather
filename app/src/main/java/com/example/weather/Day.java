@@ -1,12 +1,30 @@
 package com.example.weather;
 
 public class Day {
-    String date;
-    double avgTemp;
-    double maxWind;
-    String condition;
-    double rain;
-    double humidity;
+    String city = "";
+    String condition ="";
+    String date = "";
+
+    double avgTemp = 0;
+    double rainChance = 0;
+    double maxWind = 0;
+    double humidity = 0;
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
 
     public String getDate() {
         return date;
@@ -24,28 +42,20 @@ public class Day {
         this.avgTemp = avgTemp;
     }
 
+    public double getRainChance() {
+        return rainChance;
+    }
+
+    public void setRainChance(double rainChance) {
+        this.rainChance = rainChance;
+    }
+
     public double getMaxWind() {
         return maxWind;
     }
 
     public void setMaxWind(double maxWind) {
         this.maxWind = maxWind;
-    }
-
-    public String getCondition() {
-        return condition;
-    }
-
-    public void setCondition(String condition) {
-        this.condition = condition;
-    }
-
-    public double getRain() {
-        return rain;
-    }
-
-    public void setRain(double rain) {
-        this.rain = rain;
     }
 
     public double getHumidity() {
