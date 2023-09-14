@@ -13,19 +13,9 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding activityMainBinding;
-    private ImageView mainImage;
-    private TextView mainTemp;
-    private TextView condition;
-    private TextView rain;
-    private TextView wind;
-    private TextView humidity;
-
-    private TextView date;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
 
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = activityMainBinding.getRoot();
@@ -40,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                     activityMainBinding.textViewCondition.setText(firstDay.getCondition());
                     activityMainBinding.textViewRain.setText(String.valueOf(firstDay.getAvgTemp())+ " %");
                     activityMainBinding.textViewWind.setText(String.valueOf(firstDay.getMaxWind())+ " km/h");
-                    activityMainBinding.textViewHumudity.setText(String.valueOf(firstDay.getHumidity())+ " %");
+                    activityMainBinding.textViewHumidity.setText(String.valueOf(firstDay.getHumidity())+ " %");
                     updateImage(firstDay.getCondition());
                     activityMainBinding.textViewDate.setText(firstDay.getDate());
                 }
