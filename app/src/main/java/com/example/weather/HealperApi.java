@@ -43,30 +43,6 @@ public class HealperApi extends Day {
     private static ArrayList<Day> parseWeatherData(String jsonData) {
         ArrayList<Day> days = new ArrayList<>();
         try{
-//            JSONObject jsonObject = new JSONObject(jsonData);
-//            JSONObject forecast = jsonObject.getJSONObject("forecast");
-//            JSONArray forecastDays = forecast.getJSONArray("forecastday");
-//            for (int i = 0; i < forecastDays.length(); i++) {
-//                JSONObject dayData = forecastDays.getJSONObject(i);
-//                String date = dayData.getString("date");
-//                JSONObject day = dayData.getJSONObject("day");
-//                double avgTempC = day.getDouble("avgtemp_c");
-//                double maxWind = day.getDouble("maxwind_kph");
-//                double chance_of_rain = day.getDouble("daily_chance_of_rain");
-//                double humidity = day.getDouble("avghumidity");
-//
-//                JSONObject condition = day.getJSONObject("condition");
-//                String conditionText = condition.getString("text");
-//
-//                Day dayW = new Day();
-//                dayW.setDate(date);
-//                dayW.setAvgTemp(avgTempC);
-//                dayW.setCondition(conditionText);
-//                dayW.setRain(chance_of_rain);
-//                dayW.setMaxWind(maxWind);
-//                dayW.setHumidity(humidity);
-//                days.add(dayW);
-//            }
             JSONObject jsonObject = new JSONObject(jsonData);
             JSONObject location = jsonObject.getJSONObject("location");
             JSONObject current = jsonObject.getJSONObject("current");
