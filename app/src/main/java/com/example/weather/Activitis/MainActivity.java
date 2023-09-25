@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.example.weather.Adapters.HourlyAdapters;
@@ -21,23 +22,26 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
 
     ActivityMainBinding activityMainBinding;
+    private ArrayList<Day> daysArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         activityMainBinding = ActivityMainBinding.inflate(getLayoutInflater());
-        View view = activityMainBinding.getRoot();
-        setContentView(view);
+        setContentView(activityMainBinding.getRoot());
 
-        initRecyclerview();
+        Log.d("MyLog", "created");
 
         HealperApi healperApi = new HealperApi();
         healperApi.fetchWeatherData(new HealperApi.WeatherDataCallback() {
             @Override
             public void onSuccess(ArrayList<Day> days) {
+                Log.d("MyLog", "Success");
                 if (!days.isEmpty()) {
+//                    Log.d("MyLog", days.toString());
+//                    daysArray = days;
+//                    updateData(daysArray);
+
                     Day firstDay = days.get(0);
                     activityMainBinding.textViewTemp.setText(String.valueOf(firstDay.getAvgTemp()));
                     activityMainBinding.textViewCondition.setText(firstDay.getCondition());
@@ -50,13 +54,21 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Exception e) {
+                Log.d("MyLog", "Exception");
                 e.printStackTrace();
             }
         });
+
+        initRecyclerview();
+
     }
 
     private void initRecyclerview() {
         ArrayList<Hourly> items = new ArrayList<>();
+
+        for (int i = 0; i < 5; i++) {
+
+        }
         items.add(new Hourly("9 pm", 28, "cloudy"));
         items.add(new Hourly("11 pm", 29, "sunny"));
         items.add(new Hourly("12 pm", 31, "wind"));
@@ -68,6 +80,25 @@ public class MainActivity extends AppCompatActivity {
 
         adapterHourly = new HourlyAdapters(items);
         recyclerView.setAdapter(adapterHourly);
+    }
+
+//    public void updateData(ArrayList<Day> days){
+//        Day firstDay = days.get(0);
+//        activityMainBinding.textViewTemp.setText(String.valueOf(firstDay.getAvgTemp()));
+//        activityMainBinding.textViewCondition.setText(firstDay.getCondition());
+//        activityMainBinding.textViewRain.setText(String.valueOf(firstDay.getAvgTemp()) + " %");
+//        activityMainBinding.textViewWind.setText(String.valueOf(firstDay.getMaxWind()) + " km/h");
+//        activityMainBinding.textViewHumidity.setText(String.valueOf(firstDay.getHumidity()) + " %");
+//        updateImage(firstDay.getCondition());
+//        activityMainBinding.textViewDate.setText(firstDay.getDate());
+//
+//        updateRecyclerview(days,recyclerView);
+//    }
+
+    public void updateRecyclerview(ArrayList<Day> days, RecyclerView view){
+
+
+
     }
 
     private void updateImage(String condition) {
@@ -84,4 +115,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

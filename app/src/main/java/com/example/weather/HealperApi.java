@@ -1,5 +1,7 @@
 package com.example.weather;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import okhttp3.Call;
@@ -21,24 +23,35 @@ public class HealperApi extends Day {
         void onSuccess(ArrayList<Day> days);
         void onFailure(Exception e);
     }
-    public void fetchWeatherData(final WeatherDataCallback callback){
+    public void fetchWeatherData(final WeatherDataCallback callback) {
         Request request = new Request.Builder()
-                .url("https://api.weatherapi.com/v1/forecast.json?key=1f52bf057e1348168ef94025232308 &q=Vinnitsa&days=6&aqi=no&alerts=yes")
+                .url("https://api.weatherapi.com/v1/forecast.json?key=1f52bf057e1348168ef94025232308&q=Vinnitsa&days=6&aqi=no&alerts=yes")
                 .build();
+
         client.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
                 callback.onFailure(e);
+                Log.e("MyLog", "Http exception", e);
             }
 
             @Override
             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                if (!response.isSuccessful()) {
+                    // Обробка невдалої відповіді (не HTTP 200)
+                    Log.e("MyLog", "Http error: " + response.code());
+                    callback.onFailure(new IOException("HTTP Error: " + response.code()));
+                    return;
+                }
+
                 String jsonData = response.body().string();
                 ArrayList<Day> days = parseWeatherData(jsonData);
                 callback.onSuccess(days);
+                Log.d("MyLog", "Http success");
             }
         });
     }
+
 
     private static ArrayList<Day> parseWeatherData(String jsonData) {
         ArrayList<Day> days = new ArrayList<>();
@@ -93,4 +106,5 @@ public class HealperApi extends Day {
         }
         return days;
     }
+
 }
